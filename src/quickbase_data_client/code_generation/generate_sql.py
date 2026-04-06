@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Module: generate_sql.py
 
@@ -25,7 +25,7 @@ import shutil
 import argparse
 from pathlib import Path
 
-from quickbase_sdk.config import DEFAULT_SCHEMA_PATH_JSON, DEFAULT_SCHEMA_PATH_SQLITE
+from quickbase_data_client.config import DEFAULT_SCHEMA_PATH_JSON, DEFAULT_SCHEMA_PATH_SQLITE
 
 SCHEMA_HASH_KEY = 'schema_hash'
 

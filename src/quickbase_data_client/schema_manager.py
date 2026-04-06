@@ -1,4 +1,4 @@
-"""
+﻿"""
 Schema Manager: load and query a simplified Quickbase JSON/SQLite schema.
 """
 
@@ -8,16 +8,16 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional
 
-from quickbase_sdk.code_generation.generate_sql import sync
-from quickbase_sdk.config import DEFAULT_SCHEMA_PATH_JSON, DEFAULT_SCHEMA_PATH_SQLITE
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.code_generation.generate_sql import sync
+from quickbase_data_client.config import DEFAULT_SCHEMA_PATH_JSON, DEFAULT_SCHEMA_PATH_SQLITE
+from quickbase_data_client.exceptions import (
     QuickbaseConfigurationError,
     QuickbaseNotFoundError,
     QuickbaseSchemaError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.identifier import Identifier
+from quickbase_data_client.identifier import Identifier
 
 database_loaded: bool = False
 loaded_database: sqlite3.Connection | None = None

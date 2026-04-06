@@ -5,7 +5,7 @@ Use IDs directly unless you specifically need schema-assisted lookup.
 ## Authenticate And Get A Table
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 
 client = QuickBaseClient(Auth("example.quickbase.com", "qb-user-token"))
 orders = client.table(id="bq123456")

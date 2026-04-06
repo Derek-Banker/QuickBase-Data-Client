@@ -11,7 +11,7 @@ Schema cache files can contain tenant-specific metadata. Keep them local.
 ```python
 from pathlib import Path
 
-from quickbase_sdk import Auth, QuickBaseClient, SchemaCache
+from quickbase_data_client import Auth, QuickBaseClient, SchemaCache
 
 cache = SchemaCache(
     path=Path(".cache/quickbase/schema.sqlite3"),

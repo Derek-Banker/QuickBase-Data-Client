@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import logging
 import random
@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, Literal, Mapping
 
 import requests
 
-from quickbase_sdk.config import (
+from quickbase_data_client.config import (
     BASE_URL,
     DEFAULT_MAX_FILE_SIZE,
     DEFAULT_MAX_REQUEST_SIZE,
@@ -22,7 +22,7 @@ from quickbase_sdk.config import (
     DEFAULT_RETRY_JITTER,
     DEFAULT_RETRYABLE_STATUS_CODES,
 )
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.exceptions import (
     QuickbaseAuthError,
     QuickbaseConfigurationError,
     QuickbaseError,
@@ -37,20 +37,20 @@ from quickbase_sdk.exceptions import (
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from quickbase_sdk.app import App
-    from quickbase_sdk.identifier import Identifier
-    from quickbase_sdk.schema_cache import SchemaCache
-    from quickbase_sdk.table import Table
+    from quickbase_data_client.app import App
+    from quickbase_data_client.identifier import Identifier
+    from quickbase_data_client.schema_cache import SchemaCache
+    from quickbase_data_client.table import Table
 
 # SDK VERSION
 try:
-    __version__ = _version("quickbase-sdk")
+    __version__ = _version("quickbase-data-client")
 except PackageNotFoundError:
     __version__ = "0.0.0"
 
 # DEFAULT UA COMPONENTS
 DEFAULT_USER_AGENT: Dict[str, str] = {
-    "Base": "QuickbasePythonSDK",
+    "Base": "QuickBase-Data-Client",
     "Version": __version__,
     "Suffix": "Auth",
     "Separator": "-",
@@ -318,7 +318,7 @@ class QuickBaseAPI:
 
     @schema_cache.setter
     def schema_cache(self, schema_cache: SchemaCache) -> None:
-        from quickbase_sdk.schema_cache import SchemaCache
+        from quickbase_data_client.schema_cache import SchemaCache
 
         if not isinstance(schema_cache, SchemaCache):
             raise QuickbaseConfigurationError(
@@ -338,7 +338,7 @@ class QuickBaseAPI:
         id: str | None = None,
         name: str | None = None,
     ) -> App:
-        from quickbase_sdk.app import App
+        from quickbase_data_client.app import App
 
         if identifier is not None:
             return App(self, identifier)
@@ -363,7 +363,7 @@ class QuickBaseAPI:
         name: str | None = None,
         app: App | None = None,
     ) -> Table:
-        from quickbase_sdk.table import Table
+        from quickbase_data_client.table import Table
 
         if identifier is not None:
             return Table(self, identifier, app=app)

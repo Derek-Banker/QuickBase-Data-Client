@@ -1,12 +1,12 @@
-import atexit
+﻿import atexit
 import datetime
 import logging
 import threading
 from typing import Dict, List
 
-from quickbase_sdk.exceptions import QuickbaseValidationError, format_error_message
-from quickbase_sdk.parsers.requests import QuickBaseRequest
-from quickbase_sdk.quickbase_api import Auth, QuickBaseAPI
+from quickbase_data_client.exceptions import QuickbaseValidationError, format_error_message
+from quickbase_data_client.parsers.requests import QuickBaseRequest
+from quickbase_data_client.quickbase_api import Auth, QuickBaseAPI
 
 DEFAULT_BATCH_SIZE = 20
 DEFAULT_DT_FMT = "%Y-%m-%d %H:%M:%S"

@@ -1,4 +1,4 @@
-# src/quickbase_sdk/typed_structs/report_structs.py
+# src/quickbase_data_client/typed_structs/report_structs.py
 
 from typing import TypedDict, Literal, Dict, Any, List, Union
 

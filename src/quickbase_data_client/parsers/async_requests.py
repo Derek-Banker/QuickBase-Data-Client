@@ -1,8 +1,8 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, List
 
-from quickbase_sdk.parsers.requests import (
+from quickbase_data_client.parsers.requests import (
     GroupByProperty,
     OptionsProperty,
     RunReportParams,
@@ -14,7 +14,7 @@ from quickbase_sdk.parsers.requests import (
 )
 
 if TYPE_CHECKING:
-    from quickbase_sdk.async_quickbase_api import AsyncQuickBaseAPI
+    from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
 
 
 class AsyncQuickBaseRequest:

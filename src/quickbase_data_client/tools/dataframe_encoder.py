@@ -1,19 +1,19 @@
-from dataclasses import dataclass
+﻿from dataclasses import dataclass
 from numbers import Integral
 from typing import Any, Dict, List, Literal
 
 import numpy as np
 import pandas as Pandas
 
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.exceptions import (
     QuickbaseError,
     QuickbaseNotFoundError,
     QuickbaseSchemaError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.tools.sanitization import Sanitizer
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.tools.sanitization import Sanitizer
 
 
 @dataclass(frozen=True)

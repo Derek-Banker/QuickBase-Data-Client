@@ -3,23 +3,23 @@ import sys
 
 import pytest
 
-import quickbase_sdk
-from quickbase_sdk import AppRef, QuickBaseAPI, QuickBaseClient, SchemaCache, TableRef
-from quickbase_sdk.exceptions import QuickbaseSchemaError
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.parsers.requests import QuickBaseRequest
-from quickbase_sdk.quickbase_api import Auth
+import quickbase_data_client
+from quickbase_data_client import AppRef, QuickBaseAPI, QuickBaseClient, SchemaCache, TableRef
+from quickbase_data_client.exceptions import QuickbaseSchemaError
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.parsers.requests import QuickBaseRequest
+from quickbase_data_client.quickbase_api import Auth
 
 
 def test_package_root_exports_phase4_primary_names() -> None:
     assert issubclass(QuickBaseClient, QuickBaseAPI)
-    assert AppRef is quickbase_sdk.App
-    assert TableRef is quickbase_sdk.Table
-    assert SchemaCache is quickbase_sdk.SchemaCache
+    assert AppRef is quickbase_data_client.App
+    assert TableRef is quickbase_data_client.Table
+    assert SchemaCache is quickbase_data_client.SchemaCache
 
 
 def test_client_table_supports_id_only_without_schema(monkeypatch) -> None:
-    monkeypatch.delitem(sys.modules, "quickbase_sdk.schema_manager", raising=False)
+    monkeypatch.delitem(sys.modules, "quickbase_data_client.schema_manager", raising=False)
 
     client = QuickBaseClient(Auth("example.quickbase.com", "token"))
     table = client.table(id="bq12345")
@@ -28,7 +28,7 @@ def test_client_table_supports_id_only_without_schema(monkeypatch) -> None:
     assert table.id == "bq12345"
     assert table.app is None
     assert table.identifier.parent is None
-    assert "quickbase_sdk.schema_manager" not in sys.modules
+    assert "quickbase_data_client.schema_manager" not in sys.modules
 
 
 def test_app_table_lowercase_injects_parent_and_legacy_method_warns() -> None:
@@ -48,7 +48,7 @@ def test_app_table_lowercase_injects_parent_and_legacy_method_warns() -> None:
 
 
 def test_run_report_accepts_raw_report_id_without_schema(monkeypatch) -> None:
-    monkeypatch.delitem(sys.modules, "quickbase_sdk.schema_manager", raising=False)
+    monkeypatch.delitem(sys.modules, "quickbase_data_client.schema_manager", raising=False)
 
     captured: dict[str, str] = {}
 
@@ -65,7 +65,7 @@ def test_run_report_accepts_raw_report_id_without_schema(monkeypatch) -> None:
 
     assert captured == {"table_id": "bq12345", "report_id": "13"}
     assert response.status_code == 200
-    assert "quickbase_sdk.schema_manager" not in sys.modules
+    assert "quickbase_data_client.schema_manager" not in sys.modules
 
 
 def test_identifier_resolves_parent_from_attached_schema_cache(tmp_path, monkeypatch) -> None:
@@ -114,29 +114,29 @@ def test_identifier_resolves_parent_from_attached_schema_cache(tmp_path, monkeyp
 
 
 def test_identifier_name_lookup_requires_explicit_schema_cache(monkeypatch) -> None:
-    monkeypatch.delitem(sys.modules, "quickbase_sdk.schema_manager", raising=False)
+    monkeypatch.delitem(sys.modules, "quickbase_data_client.schema_manager", raising=False)
 
     field_identifier = Identifier("FIELD", id="7")
 
     with pytest.raises(QuickbaseSchemaError, match="cached schema metadata"):
         _ = field_identifier.name
 
-    assert "quickbase_sdk.schema_manager" not in sys.modules
+    assert "quickbase_data_client.schema_manager" not in sys.modules
 
 
 def test_importing_schema_manager_does_not_auto_load_schema(monkeypatch) -> None:
-    monkeypatch.delitem(sys.modules, "quickbase_sdk.schema_manager", raising=False)
+    monkeypatch.delitem(sys.modules, "quickbase_data_client.schema_manager", raising=False)
 
-    module = importlib.import_module("quickbase_sdk.schema_manager")
+    module = importlib.import_module("quickbase_data_client.schema_manager")
 
     assert module.database_loaded is False
     assert module.loaded_database is None
 
 
 def test_package_root_compat_export_warns(monkeypatch) -> None:
-    quickbase_sdk.__dict__.pop("QuickBaseRequest", None)
+    quickbase_data_client.__dict__.pop("QuickBaseRequest", None)
 
     with pytest.deprecated_call(match="QuickBaseRequest is an internal helper"):
-        compat_export = quickbase_sdk.QuickBaseRequest
+        compat_export = quickbase_data_client.QuickBaseRequest
 
     assert compat_export is QuickBaseRequest

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import asyncio
 import inspect
@@ -10,8 +10,8 @@ import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Awaitable, Dict, Literal, cast
 
-from quickbase_sdk.config import DEFAULT_SCHEMA_PATH_SQLITE
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.config import DEFAULT_SCHEMA_PATH_SQLITE
+from quickbase_data_client.exceptions import (
     QuickbaseConfigurationError,
     QuickbaseNotFoundError,
     QuickbaseSchemaError,
@@ -20,8 +20,8 @@ from quickbase_sdk.exceptions import (
 )
 
 if TYPE_CHECKING:
-    from quickbase_sdk.identifier import Identifier
-    from quickbase_sdk.quickbase_api import QuickBaseAPI
+    from quickbase_data_client.identifier import Identifier
+    from quickbase_data_client.quickbase_api import QuickBaseAPI
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ def _resolve_maybe_awaitable(value: Any) -> Any:
 
     thread = threading.Thread(
         target=_runner,
-        name="quickbase-sdk-schema-cache-request",
+        name="quickbase-data-client-schema-cache-request",
     )
     thread.start()
     thread.join()
@@ -96,7 +96,7 @@ class SchemaCache:
 
     @api_client.setter
     def api_client(self, api_client: QuickBaseAPI) -> None:
-        from quickbase_sdk.quickbase_api import QuickBaseAPI
+        from quickbase_data_client.quickbase_api import QuickBaseAPI
 
         if not isinstance(api_client, QuickBaseAPI):
             raise QuickbaseValidationError(

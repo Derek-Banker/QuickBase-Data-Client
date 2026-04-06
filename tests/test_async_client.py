@@ -4,16 +4,16 @@ from unittest.mock import Mock
 import pandas as pd
 import pytest
 
-import quickbase_sdk.async_quickbase_api as async_quickbase_api_module
-from quickbase_sdk import (
+import quickbase_data_client.async_quickbase_api as async_quickbase_api_module
+from quickbase_data_client import (
     AsyncQuickBaseAPI,
     AsyncQuickBaseClient,
     AsyncTable,
     FilePayload,
     SchemaCache,
 )
-from quickbase_sdk.exceptions import QuickbaseRateLimitError
-from quickbase_sdk.quickbase_api import Auth, RequestConfig
+from quickbase_data_client.exceptions import QuickbaseRateLimitError
+from quickbase_data_client.quickbase_api import Auth, RequestConfig
 
 
 class DummyResponse:

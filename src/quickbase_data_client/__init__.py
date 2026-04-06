@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import warnings
 
@@ -59,27 +59,27 @@ __all__ = [
 
 _COMPAT_EXPORTS = {
     "QuickBaseHandler": (
-        "quickbase_sdk.tools.quickbase_log_handler",
+        "quickbase_data_client.tools.quickbase_log_handler",
         "QuickBaseHandler",
         (
             "QuickBaseHandler is deprecated at the package root; import it from "
-            "quickbase_sdk.tools.quickbase_log_handler instead."
+            "quickbase_data_client.tools.quickbase_log_handler instead."
         ),
     ),
     "QuickBaseRequest": (
-        "quickbase_sdk.parsers.requests",
+        "quickbase_data_client.parsers.requests",
         "QuickBaseRequest",
         (
             "QuickBaseRequest is an internal helper; import it from "
-            "quickbase_sdk.parsers.requests only if you need the compatibility path."
+            "quickbase_data_client.parsers.requests only if you need the compatibility path."
         ),
     ),
     "ResponseFactory": (
-        "quickbase_sdk.parsers.response_factory",
+        "quickbase_data_client.parsers.response_factory",
         "ResponseFactory",
         (
             "ResponseFactory is an internal helper; import it from "
-            "quickbase_sdk.parsers.response_factory only if you need the "
+            "quickbase_data_client.parsers.response_factory only if you need the "
             "compatibility path."
         ),
     ),

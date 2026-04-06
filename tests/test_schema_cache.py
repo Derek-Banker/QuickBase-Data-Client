@@ -1,9 +1,9 @@
 import pytest
 
-import quickbase_sdk.schema_cache as schema_cache_module
-from quickbase_sdk import QuickBaseClient, SchemaCache
-from quickbase_sdk.exceptions import QuickbaseNotFoundError
-from quickbase_sdk.quickbase_api import Auth
+import quickbase_data_client.schema_cache as schema_cache_module
+from quickbase_data_client import QuickBaseClient, SchemaCache
+from quickbase_data_client.exceptions import QuickbaseNotFoundError
+from quickbase_data_client.quickbase_api import Auth
 
 
 class DummyResponse:

@@ -6,10 +6,10 @@ from unittest.mock import Mock
 import pytest
 import requests
 
-import quickbase_sdk.quickbase_api as quickbase_api_module
-from quickbase_sdk.exceptions import QuickbaseConfigurationError, QuickbaseTransportError
-from quickbase_sdk.parsers.requests import OptionsProperty, build_query_records_request
-from quickbase_sdk.quickbase_api import Auth, QuickBaseAPI, RequestConfig
+import quickbase_data_client.quickbase_api as quickbase_api_module
+from quickbase_data_client.exceptions import QuickbaseConfigurationError, QuickbaseTransportError
+from quickbase_data_client.parsers.requests import OptionsProperty, build_query_records_request
+from quickbase_data_client.quickbase_api import Auth, QuickBaseAPI, RequestConfig
 
 
 def _response(

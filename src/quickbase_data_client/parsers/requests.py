@@ -1,10 +1,10 @@
-# QuickBasePythonSDK\src\quickbase_sdk\parsers\requests.py
+﻿# QuickBase-Data-Client\src\quickbase_data_client\parsers\requests.py
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Literal
 
-from quickbase_sdk.quickbase_api import QuickBaseAPI
+from quickbase_data_client.quickbase_api import QuickBaseAPI
 
-# from quickbase_sdk.parsers.requests import encode_file
+# from quickbase_data_client.parsers.requests import encode_file
 
 # ======================================================
 # Data classes for additional optional request parameters

@@ -5,7 +5,7 @@ The maintained client is IDs-first. You do not need schema metadata for normal d
 ## Direct Table Access
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 
 client = QuickBaseClient(Auth("example.quickbase.com", "qb-user-token"))
 orders = client.table(id="bq123456")
@@ -35,7 +35,7 @@ That does not require `SchemaCache`.
 Use `Identifier` when you want a typed field reference without schema name lookup:
 
 ```python
-from quickbase_sdk import Identifier
+from quickbase_data_client import Identifier
 
 status_field = Identifier("FIELD", id="6", parent=orders.identifier)
 ```

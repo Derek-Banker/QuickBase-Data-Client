@@ -55,4 +55,4 @@ jobs:
       - name: Test with coverage
         env:
           QUICKBASE_RUN_INTEGRATION_TESTS: "0"
-        run: python -m pytest tests --cov=quickbase_sdk --cov-report=term-missing -m "not integration"
+        run: python -m pytest tests --cov=quickbase_data_client --cov-report=term-missing -m "not integration"

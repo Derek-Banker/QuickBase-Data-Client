@@ -1,9 +1,9 @@
-# src/quickbase_sdk/typed_structs/response_structs.py
+# src/quickbase_data_client/typed_structs/response_structs.py
 
 from typing import TypedDict, List, Dict, Union
 
-from quickbase_sdk.typed_structs.base_structs import AppStruct, TableStruct, FieldStruct
-from quickbase_sdk.typed_structs.report_structs import ReportStruct
+from quickbase_data_client.typed_structs.base_structs import AppStruct, TableStruct, FieldStruct
+from quickbase_data_client.typed_structs.report_structs import ReportStruct
 
 class GetAppResponse(AppStruct):
     """alias for GET /v1/apps/{appId} result"""

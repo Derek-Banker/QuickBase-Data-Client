@@ -1,10 +1,10 @@
-from datetime import date, datetime, time
+﻿from datetime import date, datetime, time
 from typing import Any, Callable, Dict, Optional, Union
 
 import pandas as pd
 from pandas.api.types import is_scalar
 
-from quickbase_sdk.exceptions import QuickbasePayloadError, format_error_message
+from quickbase_data_client.exceptions import QuickbasePayloadError, format_error_message
 
 TYPE_FORMATTERS: Dict[str, Callable[[Any], Any]] = {
     "text": lambda value: str(value),

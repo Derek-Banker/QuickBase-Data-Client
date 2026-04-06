@@ -3,16 +3,16 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "quickbase-sdk"
+name = "quickbase-data-client"
 version = "0.1.1"
 description = "Python client for Quickbase data access with optional schema caching and pandas helpers"
 authors = [{ name = "Derek Banker", email = "dbb2002@gmail.com" }]
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
 keywords = ["quickbase", "api", "data", "pandas", "schema"]
 classifiers = [
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
@@ -34,14 +34,14 @@ dev = [
 ]
 
 [project.scripts]
-generate-schema = "quickbase_sdk.code_generation.generate_schema:main"
+generate-schema = "quickbase_data_client.code_generation.generate_schema:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["quickbase_sdk*"]
+include = ["quickbase_data_client*"]
 namespaces = true
 
 [tool.pytest.ini_options]
@@ -57,9 +57,9 @@ target-version = "py310"
 line-length = 100
 src = ["src", "tests"]
 extend-exclude = [
-    "src/quickbase_sdk/code_generation",
-    "src/quickbase_sdk/typed_structs",
-    "src/quickbase_sdk/schema_manager.py",
+    "src/quickbase_data_client/code_generation",
+    "src/quickbase_data_client/typed_structs",
+    "src/quickbase_data_client/schema_manager.py",
 ]
 
 [tool.ruff.lint]
@@ -76,27 +76,27 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = [
-    "quickbase_sdk.code_generation.*",
-    "quickbase_sdk.typed_structs.*",
-    "quickbase_sdk.schema_manager",
+    "quickbase_data_client.code_generation.*",
+    "quickbase_data_client.typed_structs.*",
+    "quickbase_data_client.schema_manager",
 ]
 ignore_errors = true
 
 [[tool.mypy.overrides]]
-module = ["quickbase_sdk.async_quickbase_api"]
+module = ["quickbase_data_client.async_quickbase_api"]
 disable_error_code = ["override"]
 
 [[tool.mypy.overrides]]
-module = ["quickbase_sdk.identifier"]
+module = ["quickbase_data_client.identifier"]
 disable_error_code = ["attr-defined", "misc", "no-redef"]
 
 [tool.coverage.run]
 branch = true
-source = ["quickbase_sdk"]
+source = ["quickbase_data_client"]
 omit = [
-    "src/quickbase_sdk/code_generation/*",
-    "src/quickbase_sdk/typed_structs/*",
-    "src/quickbase_sdk/schema_manager.py",
+    "src/quickbase_data_client/code_generation/*",
+    "src/quickbase_data_client/typed_structs/*",
+    "src/quickbase_data_client/schema_manager.py",
 ]
 
 [tool.coverage.report]

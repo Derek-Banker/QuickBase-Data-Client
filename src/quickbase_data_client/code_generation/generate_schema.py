@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 import json
 import logging
 import os
@@ -6,14 +6,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Dict, Literal
 
-from quickbase_sdk.config import DEFAULT_SCHEMA_PATH_JSON
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.config import DEFAULT_SCHEMA_PATH_JSON
+from quickbase_data_client.exceptions import (
     QuickbaseNotFoundError,
     QuickbaseSchemaError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.quickbase_api import Auth, QuickBaseAPI
+from quickbase_data_client.quickbase_api import Auth, QuickBaseAPI
 
 logger = logging.getLogger(__name__)
 

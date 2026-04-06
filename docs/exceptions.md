@@ -18,8 +18,8 @@ The maintained client raises package exceptions instead of returning status wrap
 ## Common Catch Pattern
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
-from quickbase_sdk.exceptions import (
+from quickbase_data_client import Auth, QuickBaseClient
+from quickbase_data_client.exceptions import (
     QuickbaseAuthError,
     QuickbaseHTTPError,
     QuickbaseRateLimitError,

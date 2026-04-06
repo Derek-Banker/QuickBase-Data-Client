@@ -1,4 +1,4 @@
-# src/quickbase_sdk/typed_structs/base_structs.py
+# src/quickbase_data_client/typed_structs/base_structs.py
 
 from typing import TypedDict, List, Literal, Dict, Any
 

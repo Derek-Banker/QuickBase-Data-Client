@@ -1,9 +1,9 @@
 
 import pytest
 
-from quickbase_sdk import Auth
-from quickbase_sdk.code_generation import generate_sql
-from quickbase_sdk.code_generation.generate_schema import GenerateSchema
+from quickbase_data_client import Auth
+from quickbase_data_client.code_generation import generate_sql
+from quickbase_data_client.code_generation.generate_schema import GenerateSchema
 from tests.integration_support import require_integration_env
 
 pytestmark = pytest.mark.integration

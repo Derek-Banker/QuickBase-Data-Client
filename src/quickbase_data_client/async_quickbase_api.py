@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import asyncio
 import logging
@@ -7,21 +7,21 @@ from typing import TYPE_CHECKING, Any, Dict, Literal
 
 import requests
 
-from quickbase_sdk.config import BASE_URL
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.config import BASE_URL
+from quickbase_data_client.exceptions import (
     QuickbaseTransportError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.quickbase_api import Auth, QuickBaseAPI, RequestConfig
+from quickbase_data_client.quickbase_api import Auth, QuickBaseAPI, RequestConfig
 
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from quickbase_sdk.async_app import AsyncApp
-    from quickbase_sdk.async_table import AsyncTable
-    from quickbase_sdk.identifier import Identifier
-    from quickbase_sdk.schema_cache import SchemaCache
+    from quickbase_data_client.async_app import AsyncApp
+    from quickbase_data_client.async_table import AsyncTable
+    from quickbase_data_client.identifier import Identifier
+    from quickbase_data_client.schema_cache import SchemaCache
 
 
 class AsyncQuickBaseAPI(QuickBaseAPI):
@@ -52,7 +52,7 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         id: str | None = None,
         name: str | None = None,
     ) -> AsyncApp:
-        from quickbase_sdk.async_app import AsyncApp
+        from quickbase_data_client.async_app import AsyncApp
 
         if identifier is not None:
             return AsyncApp(self, identifier)
@@ -77,7 +77,7 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         name: str | None = None,
         app: AsyncApp | None = None,
     ) -> AsyncTable:
-        from quickbase_sdk.async_table import AsyncTable
+        from quickbase_data_client.async_table import AsyncTable
 
         if identifier is not None:
             return AsyncTable(self, identifier, app=app)
