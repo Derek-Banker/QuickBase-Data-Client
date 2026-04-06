@@ -1,12 +1,12 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import warnings
 from typing import overload
 
-from quickbase_sdk.exceptions import QuickbaseValidationError, format_error_message
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.quickbase_api import QuickBaseAPI
-from quickbase_sdk.table import Table as TableModel
+from quickbase_data_client.exceptions import QuickbaseValidationError, format_error_message
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.quickbase_api import QuickBaseAPI
+from quickbase_data_client.table import Table as TableModel
 
 
 class App:

@@ -1,15 +1,15 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import warnings
 from typing import TYPE_CHECKING, Any, cast, overload
 
-from quickbase_sdk.app import App as SyncApp
-from quickbase_sdk.exceptions import QuickbaseValidationError, format_error_message
-from quickbase_sdk.identifier import Identifier
+from quickbase_data_client.app import App as SyncApp
+from quickbase_data_client.exceptions import QuickbaseValidationError, format_error_message
+from quickbase_data_client.identifier import Identifier
 
 if TYPE_CHECKING:
-    from quickbase_sdk.async_quickbase_api import AsyncQuickBaseAPI
-    from quickbase_sdk.async_table import AsyncTable as AsyncTableModel
+    from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
+    from quickbase_data_client.async_table import AsyncTable as AsyncTableModel
 
 
 class AsyncApp:
@@ -35,7 +35,7 @@ class AsyncApp:
         id: str | None = None,
         name: str | None = None,
     ) -> None:
-        from quickbase_sdk.async_quickbase_api import AsyncQuickBaseAPI
+        from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
 
         if api_client is None or not isinstance(api_client, AsyncQuickBaseAPI):
             raise QuickbaseValidationError(
@@ -86,7 +86,7 @@ class AsyncApp:
         id: str | None = None,
         name: str | None = None,
     ) -> AsyncTableModel:
-        from quickbase_sdk.async_table import AsyncTable as AsyncTableModel
+        from quickbase_data_client.async_table import AsyncTable as AsyncTableModel
 
         if identifier is not None:
             table = AsyncTableModel(self, identifier=identifier)

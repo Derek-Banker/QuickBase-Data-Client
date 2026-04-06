@@ -1,7 +1,7 @@
-from pathlib import Path
+﻿from pathlib import Path
 from typing import Any, Dict
 
-from quickbase_sdk.identifier import Identifier
+from quickbase_data_client.identifier import Identifier
 
 from .responses import (
     DownloadFileResponse,

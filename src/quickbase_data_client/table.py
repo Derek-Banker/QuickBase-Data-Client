@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 import logging
@@ -7,27 +7,27 @@ from typing import TYPE_CHECKING, Any, Dict, Iterator, List, TypeAlias, overload
 
 import pandas as Pandas
 
-from quickbase_sdk.config import DEFAULT_MAX_REQUEST_SIZE
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.config import DEFAULT_MAX_REQUEST_SIZE
+from quickbase_data_client.exceptions import (
     QuickbasePayloadError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.file_payload import FilePayload
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.parsers.requests import (
+from quickbase_data_client.file_payload import FilePayload
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.parsers.requests import (
     GroupByProperty,
     OptionsProperty,
     QuickBaseRequest,
     RunReportParams,
     SortByProperty,
 )
-from quickbase_sdk.parsers.response_factory import ResponseFactory
-from quickbase_sdk.parsers.responses import QuickBaseResponse
-from quickbase_sdk.quickbase_api import QuickBaseAPI
+from quickbase_data_client.parsers.response_factory import ResponseFactory
+from quickbase_data_client.parsers.responses import QuickBaseResponse
+from quickbase_data_client.quickbase_api import QuickBaseAPI
 
 if TYPE_CHECKING:
-    from quickbase_sdk.app import App
+    from quickbase_data_client.app import App
 
 logger = logging.getLogger(__name__)
 
@@ -225,7 +225,7 @@ class Table:
         name: str | None = None,
         app: App | None = None,
     ) -> None:
-        from quickbase_sdk.app import App
+        from quickbase_data_client.app import App
 
         resolved_app: App | None = None
         resolved_api_client: QuickBaseAPI
@@ -432,7 +432,7 @@ class Table:
         data: List[Dict[str, Any]] | Pandas.DataFrame,
     ) -> List[Dict[str, Any]]:
         if isinstance(data, Pandas.DataFrame):
-            from quickbase_sdk.tools.dataframe_encoder import DataFrameEncoder
+            from quickbase_data_client.tools.dataframe_encoder import DataFrameEncoder
 
             return DataFrameEncoder.from_dataframe(
                 data,

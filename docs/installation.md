@@ -11,13 +11,13 @@ The current package includes `requests`, `pandas`, and `numpy` as direct depende
 ## Install From PyPI
 
 ```bash
-pip install quickbase-sdk
+pip install quickbase-data-client
 ```
 
 Import it as:
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 ```
 
 ## Install For Local Development
@@ -31,7 +31,7 @@ That installs the package plus the repo's quality-tooling dependencies.
 ## Minimal Setup
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 
 auth = Auth("example.quickbase.com", "qb-user-token")
 client = QuickBaseClient(auth)
@@ -52,7 +52,7 @@ Example:
 ```python
 from pathlib import Path
 
-from quickbase_sdk import Auth, QuickBaseClient, SchemaCache
+from quickbase_data_client import Auth, QuickBaseClient, SchemaCache
 
 cache = SchemaCache(path=Path(".cache/quickbase/schema.sqlite3"))
 client = QuickBaseClient(

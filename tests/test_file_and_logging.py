@@ -4,18 +4,18 @@ from unittest.mock import Mock
 
 import pytest
 
-import quickbase_sdk.table as table_module
-import quickbase_sdk.tools.quickbase_log_handler as log_handler_module
-from quickbase_sdk import QuickBaseClient
-from quickbase_sdk.exceptions import (
+import quickbase_data_client.table as table_module
+import quickbase_data_client.tools.quickbase_log_handler as log_handler_module
+from quickbase_data_client import QuickBaseClient
+from quickbase_data_client.exceptions import (
     QuickbaseConfigurationError,
     QuickbasePayloadError,
     QuickbaseValidationError,
 )
-from quickbase_sdk.file_payload import FilePayload
-from quickbase_sdk.parsers.requests import QuickBaseRequest
-from quickbase_sdk.quickbase_api import Auth, RequestConfig
-from quickbase_sdk.tools.quickbase_log_handler import QuickBaseHandler
+from quickbase_data_client.file_payload import FilePayload
+from quickbase_data_client.parsers.requests import QuickBaseRequest
+from quickbase_data_client.quickbase_api import Auth, RequestConfig
+from quickbase_data_client.tools.quickbase_log_handler import QuickBaseHandler
 
 
 def _make_table(*, request_config: RequestConfig | None = None):

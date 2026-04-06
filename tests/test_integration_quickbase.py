@@ -4,8 +4,8 @@ import os
 
 import pytest
 
-from quickbase_sdk import Auth, QuickBaseClient, SchemaCache
-from quickbase_sdk.parsers.requests import OptionsProperty
+from quickbase_data_client import Auth, QuickBaseClient, SchemaCache
+from quickbase_data_client.parsers.requests import OptionsProperty
 from tests.integration_support import parse_select_env, require_integration_env
 
 pytestmark = pytest.mark.integration

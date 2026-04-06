@@ -1,14 +1,14 @@
-import logging
+﻿import logging
 from abc import ABC
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Mapping, Tuple
 
 import pandas as Pandas
 
-from quickbase_sdk.exceptions import QuickbasePayloadError, format_error_message
-from quickbase_sdk.file_payload import FilePayload
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.tools.dataframe_encoder import DataFrameEncoder
+from quickbase_data_client.exceptions import QuickbasePayloadError, format_error_message
+from quickbase_data_client.file_payload import FilePayload
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.tools.dataframe_encoder import DataFrameEncoder
 
 logger = logging.getLogger(__name__)
 

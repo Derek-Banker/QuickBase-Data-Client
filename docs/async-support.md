@@ -32,7 +32,7 @@ These remain sync-only in the maintained Phase 11 surface:
 ```python
 import asyncio
 
-from quickbase_sdk import AsyncQuickBaseClient, Auth
+from quickbase_data_client import AsyncQuickBaseClient, Auth
 
 
 async def main() -> None:

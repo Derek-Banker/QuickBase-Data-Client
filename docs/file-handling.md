@@ -7,7 +7,7 @@ Async support currently includes file upload only.
 Assume the examples below already have a table handle such as:
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 
 client = QuickBaseClient(Auth("example.quickbase.com", "qb-user-token"))
 table = client.table(id="bq123456")
@@ -20,7 +20,7 @@ From a local file:
 ```python
 from pathlib import Path
 
-from quickbase_sdk import FilePayload
+from quickbase_data_client import FilePayload
 
 payload = FilePayload(drive_path=Path("invoice.pdf"))
 ```
@@ -92,7 +92,7 @@ response = table.delete_file(
 Global defaults come from `RequestConfig`:
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient, RequestConfig
+from quickbase_data_client import Auth, QuickBaseClient, RequestConfig
 
 client = QuickBaseClient(
     Auth("example.quickbase.com", "qb-user-token"),

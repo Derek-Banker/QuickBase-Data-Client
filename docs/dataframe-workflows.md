@@ -5,7 +5,7 @@ The maintained DataFrame support is explicit and IDs-first. It does not guess th
 Assume the examples below already have a table handle such as:
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 
 client = QuickBaseClient(Auth("example.quickbase.com", "qb-user-token"))
 table = client.table(id="bq123456")
@@ -52,7 +52,7 @@ Field-name columns only work when the table has access to cached schema metadata
 import pandas as pd
 from pathlib import Path
 
-from quickbase_sdk import Auth, QuickBaseClient, SchemaCache
+from quickbase_data_client import Auth, QuickBaseClient, SchemaCache
 
 cache = SchemaCache(path=Path(".cache/quickbase/schema.sqlite3"))
 client = QuickBaseClient(
@@ -82,7 +82,7 @@ One important rule: digit-only strings stay ID-based even if the schema contains
 If you really mean the field name `"6"`, use an explicit `Identifier`:
 
 ```python
-from quickbase_sdk import Identifier
+from quickbase_data_client import Identifier
 
 frame = pd.DataFrame(
     [["Open"]],

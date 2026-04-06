@@ -3,16 +3,16 @@ from unittest.mock import Mock
 import pytest
 import requests
 
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.exceptions import (
     QuickbasePayloadError,
     QuickbaseRateLimitError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.file_payload import FilePayload
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.quickbase_api import Auth, QuickBaseAPI, RequestConfig
-from quickbase_sdk.tools.sanitization import Sanitizer
+from quickbase_data_client.file_payload import FilePayload
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.quickbase_api import Auth, QuickBaseAPI, RequestConfig
+from quickbase_data_client.tools.sanitization import Sanitizer
 
 
 def test_format_error_message_includes_context_and_cause() -> None:

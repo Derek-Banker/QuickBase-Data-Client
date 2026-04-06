@@ -5,10 +5,10 @@ from typing import cast
 
 import pytest
 
-from quickbase_sdk.exceptions import QuickbasePayloadError
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.parsers.response_factory import ResponseFactory
-from quickbase_sdk.parsers.responses import DownloadFileResponse
+from quickbase_data_client.exceptions import QuickbasePayloadError
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.parsers.response_factory import ResponseFactory
+from quickbase_data_client.parsers.responses import DownloadFileResponse
 
 
 class JsonDownloadResponse:

@@ -1,6 +1,6 @@
-# quickbase-sdk
+# QuickBase-Data-Client
 
-`quickbase-sdk` is a focused Python client for Quickbase data access.
+`QuickBase-Data-Client` is a focused Python client for Quickbase data access.
 
 It is built for record queries, upserts, reports, formulas, file attachments, optional schema-assisted lookup, and pandas-based workflows. It is not a full Quickbase administration SDK, and it does not try to wrap every Quickbase endpoint.
 
@@ -30,10 +30,10 @@ Current maintained capabilities:
 ## Installation
 
 ```bash
-pip install quickbase-sdk
+pip install quickbase-data-client
 ```
 
-The published package name is `quickbase-sdk`. The import path is `quickbase_sdk`.
+The published package name is `quickbase-data-client`. The import path is `quickbase_data_client`.
 
 Python `3.10+` is required. `pandas` and `numpy` are direct dependencies in the current package shape.
 
@@ -42,7 +42,7 @@ Python `3.10+` is required. `pandas` and `numpy` are direct dependencies in the 
 Use IDs directly unless you specifically need schema-assisted name resolution.
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient
+from quickbase_data_client import Auth, QuickBaseClient
 
 auth = Auth("example.quickbase.com", "qb-user-token")
 client = QuickBaseClient(auth)
@@ -98,7 +98,7 @@ This package is intentionally narrow.
 - `AsyncQuickBaseAPI` still works as the compatibility/explicit async path.
 - `App.table(...)` and `AsyncApp.table(...)` are preferred.
 - `App.Table(...)` and `AsyncApp.Table(...)` still work, but they are deprecated.
-- `QuickBaseHandler` should be imported from `quickbase_sdk.tools.quickbase_log_handler`.
+- `QuickBaseHandler` should be imported from `quickbase_data_client.tools.quickbase_log_handler`.
 - Package-root compatibility exports for `QuickBaseRequest` and `ResponseFactory` are deprecated.
 
 ## Schema Data Safety

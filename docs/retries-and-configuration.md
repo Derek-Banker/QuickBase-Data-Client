@@ -18,7 +18,7 @@ Current defaults:
 ## Basic Configuration
 
 ```python
-from quickbase_sdk import Auth, QuickBaseClient, RequestConfig
+from quickbase_data_client import Auth, QuickBaseClient, RequestConfig
 
 config = RequestConfig(
     timeout=(5.0, 30.0),

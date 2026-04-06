@@ -1,10 +1,10 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING, Any, Dict, List, cast
 
-from quickbase_sdk.config import LEVELS_LIST, LEVELS_LITERAL
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.config import LEVELS_LIST, LEVELS_LITERAL
+from quickbase_data_client.exceptions import (
     QuickbaseSchemaError,
     QuickbaseValidationError,
     format_error_message,
@@ -13,7 +13,7 @@ from quickbase_sdk.exceptions import (
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
-    from quickbase_sdk.schema_cache import SchemaCache
+    from quickbase_data_client.schema_cache import SchemaCache
 
 
 class Identifier:
@@ -327,7 +327,7 @@ class Identifier:
 
     @schema_cache.setter
     def schema_cache(self, schema_cache: SchemaCache) -> None:
-        from quickbase_sdk.schema_cache import SchemaCache
+        from quickbase_data_client.schema_cache import SchemaCache
 
         if not isinstance(schema_cache, SchemaCache):
             raise QuickbaseValidationError(

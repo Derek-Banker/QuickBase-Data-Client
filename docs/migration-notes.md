@@ -35,7 +35,7 @@ Preferred:
 ```python
 from pathlib import Path
 
-from quickbase_sdk import Auth, QuickBaseClient, SchemaCache
+from quickbase_data_client import Auth, QuickBaseClient, SchemaCache
 
 cache = SchemaCache(path=Path(".cache/quickbase/schema.sqlite3"))
 client = QuickBaseClient(
@@ -63,14 +63,14 @@ Do not assume failures will be signaled only through logs or ad hoc status wrapp
 
 These compatibility paths still exist, but they are not the preferred public surface:
 
-- `quickbase_sdk.QuickBaseHandler`
-- `quickbase_sdk.QuickBaseRequest`
-- `quickbase_sdk.ResponseFactory`
+- `quickbase_data_client.QuickBaseHandler`
+- `quickbase_data_client.QuickBaseRequest`
+- `quickbase_data_client.ResponseFactory`
 
 Preferred imports:
 
 ```python
-from quickbase_sdk.tools.quickbase_log_handler import QuickBaseHandler
+from quickbase_data_client.tools.quickbase_log_handler import QuickBaseHandler
 ```
 
 Internal parser helpers should be imported from their actual modules only when you knowingly depend on a compatibility path.
@@ -81,4 +81,4 @@ If you are migrating sync code to async, do not assume feature parity. The maint
 
 ## Package Identity In This Repo
 
-The install name remains `quickbase-sdk` and the import path remains `quickbase_sdk` in this repo state.
+The install name is `quickbase-data-client` and the import path is `quickbase_data_client`.

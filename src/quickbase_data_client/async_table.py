@@ -1,36 +1,36 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Iterator, List, TypeAlias, cast, overload
 
 import pandas as Pandas
 
-from quickbase_sdk.exceptions import (
+from quickbase_data_client.exceptions import (
     QuickbasePayloadError,
     QuickbaseValidationError,
     format_error_message,
 )
-from quickbase_sdk.file_payload import FilePayload
-from quickbase_sdk.identifier import Identifier
-from quickbase_sdk.parsers.async_requests import AsyncQuickBaseRequest
-from quickbase_sdk.parsers.requests import (
+from quickbase_data_client.file_payload import FilePayload
+from quickbase_data_client.identifier import Identifier
+from quickbase_data_client.parsers.async_requests import AsyncQuickBaseRequest
+from quickbase_data_client.parsers.requests import (
     GroupByProperty,
     OptionsProperty,
     RunReportParams,
     SortByProperty,
 )
-from quickbase_sdk.parsers.response_factory import ResponseFactory
-from quickbase_sdk.parsers.responses import QuickBaseResponse
-from quickbase_sdk.table import (
+from quickbase_data_client.parsers.response_factory import ResponseFactory
+from quickbase_data_client.parsers.responses import QuickBaseResponse
+from quickbase_data_client.table import (
     DEFAULT_UPSERT_BATCH_RECORD_COUNT,
     _merge_upsert_batch_responses,
 )
-from quickbase_sdk.table import (
+from quickbase_data_client.table import (
     Table as SyncTable,
 )
 
 if TYPE_CHECKING:
-    from quickbase_sdk.async_app import AsyncApp
-    from quickbase_sdk.async_quickbase_api import AsyncQuickBaseAPI
+    from quickbase_data_client.async_app import AsyncApp
+    from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
 
 UploadFileEntry: TypeAlias = Dict[str, object]
 
@@ -96,8 +96,8 @@ class AsyncTable:
         name: str | None = None,
         app: AsyncApp | None = None,
     ) -> None:
-        from quickbase_sdk.async_app import AsyncApp
-        from quickbase_sdk.async_quickbase_api import AsyncQuickBaseAPI
+        from quickbase_data_client.async_app import AsyncApp
+        from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
 
         resolved_app: AsyncApp | None = None
         resolved_api_client: AsyncQuickBaseAPI

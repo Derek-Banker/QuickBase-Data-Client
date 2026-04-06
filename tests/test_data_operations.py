@@ -1,15 +1,19 @@
 import pandas as pd
 import pytest
 
-import quickbase_sdk.table as table_module
-from quickbase_sdk import Identifier, QuickBaseClient, SchemaCache
-from quickbase_sdk.exceptions import (
+import quickbase_data_client.table as table_module
+from quickbase_data_client import Identifier, QuickBaseClient, SchemaCache
+from quickbase_data_client.exceptions import (
     QuickbasePayloadError,
     QuickbaseSchemaError,
     QuickbaseValidationError,
 )
-from quickbase_sdk.parsers.requests import OptionsProperty, QuickBaseRequest, RunReportParams
-from quickbase_sdk.quickbase_api import Auth
+from quickbase_data_client.parsers.requests import (
+    OptionsProperty,
+    QuickBaseRequest,
+    RunReportParams,
+)
+from quickbase_data_client.quickbase_api import Auth
 
 
 class DummyResponse:

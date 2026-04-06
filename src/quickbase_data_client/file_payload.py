@@ -1,10 +1,10 @@
-import base64
+﻿import base64
 import logging
 from pathlib import Path
 from typing import Dict
 
-from quickbase_sdk.config import DEFAULT_EXPORT_PATH, DEFAULT_MAX_FILE_SIZE
-from quickbase_sdk.exceptions import QuickbasePayloadError, format_error_message
+from quickbase_data_client.config import DEFAULT_EXPORT_PATH, DEFAULT_MAX_FILE_SIZE
+from quickbase_data_client.exceptions import QuickbasePayloadError, format_error_message
 
 logger = logging.getLogger(__name__)
 
