@@ -1,0 +1,7 @@
+prune models
+prune .mypy_cache
+prune .pytest_cache
+prune .ruff_cache
+prune src/quickbase_sdk.egg-info
+global-exclude __pycache__
+global-exclude *.py[cod]

@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quickbase-sdk"
+version = "0.1.1"
+description = "Python client for Quickbase data access with optional schema caching and pandas helpers"
+authors = [{ name = "Derek Banker", email = "dbb2002@gmail.com" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+keywords = ["quickbase", "api", "data", "pandas", "schema"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "requests",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy",
+    "pytest",
+    "pytest-cov",
+    "python-dotenv",
+    "ruff",
+    "types-requests",
+]
+
+[project.scripts]
+generate-schema = "quickbase_sdk.code_generation.generate_schema:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["quickbase_sdk*"]
+namespaces = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+norecursedirs = [".git", ".venv", "build", "dist", "*.egg-info", "__pycache__"]
+markers = [
+    "integration: live Quickbase integration tests requiring explicit env vars",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests"]
+extend-exclude = [
+    "src/quickbase_sdk/code_generation",
+    "src/quickbase_sdk/typed_structs",
+    "src/quickbase_sdk/schema_manager.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.mypy]
+python_version = "3.10"
+files = ["src", "tests"]
+mypy_path = "src"
+namespace_packages = true
+show_error_codes = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "quickbase_sdk.code_generation.*",
+    "quickbase_sdk.typed_structs.*",
+    "quickbase_sdk.schema_manager",
+]
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = ["quickbase_sdk.async_quickbase_api"]
+disable_error_code = ["override"]
+
+[[tool.mypy.overrides]]
+module = ["quickbase_sdk.identifier"]
+disable_error_code = ["attr-defined", "misc", "no-redef"]
+
+[tool.coverage.run]
+branch = true
+source = ["quickbase_sdk"]
+omit = [
+    "src/quickbase_sdk/code_generation/*",
+    "src/quickbase_sdk/typed_structs/*",
+    "src/quickbase_sdk/schema_manager.py",
+]
+
+[tool.coverage.report]
+fail_under = 72
+show_missing = true
+skip_covered = true
