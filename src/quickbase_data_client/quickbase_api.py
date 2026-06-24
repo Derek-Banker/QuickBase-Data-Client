@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Authentication, request configuration, and sync HTTP transport."""
+
+from __future__ import annotations
 
 import logging
 import random
@@ -142,6 +144,7 @@ class RequestConfig:
     max_file_size_kb: float = DEFAULT_MAX_FILE_SIZE
 
     def __post_init__(self) -> None:
+        """Validate and normalize immutable request configuration values."""
         object.__setattr__(self, "timeout", _normalize_timeout(self.timeout))
         try:
             retryable_status_codes = frozenset(self.retryable_status_codes)
@@ -240,6 +243,7 @@ class RequestConfig:
 
 
 def assemble_user_agent(cfg: Dict[str, str]) -> str:
+    """Assemble the package user-agent string from configurable parts."""
     final = DEFAULT_USER_AGENT.copy()
     final.update(cfg or {})
     sep = final["Separator"]
@@ -250,9 +254,7 @@ def assemble_user_agent(cfg: Dict[str, str]) -> str:
 
 
 class Auth:
-    """
-    Encapsulates realm + user token, and assembles a flexible User-Agent.
-    """
+    """Encapsulate realm, user token, and user-agent headers."""
 
     def __init__(
         self,
@@ -261,20 +263,24 @@ class Auth:
         *,
         user_agent: Dict[str, str] | None = None,
     ):
+        """Create auth details for Quickbase requests."""
         self.realm = realm
         self.user_token = user_token
         self._user_agent = assemble_user_agent(user_agent or {})
 
     @property
     def user_agent(self) -> str:
+        """Return the assembled user-agent string."""
         return self._user_agent
 
     @user_agent.setter
     def user_agent(self, cfg: Dict[str, str]):
+        """Replace the user-agent from component values."""
         self._user_agent = assemble_user_agent(cfg)
 
     @property
     def headers(self) -> Dict[str, str]:
+        """Return headers required by Quickbase data endpoints."""
         return {
             "QB-Realm-Hostname": self.realm,
             "Authorization": f"QB-USER-TOKEN {self.user_token}",
@@ -283,16 +289,14 @@ class Auth:
         }
 
     def session(self) -> requests.Session:
+        """Create a requests session preloaded with auth headers."""
         session = requests.Session()
         session.headers.update(self.headers)
         return session
 
 
 class QuickBaseAPI:
-    """
-    Holds auth/session and issues raw HTTP requests.
-    Does not parse responses; returns the raw Response.
-    """
+    """Hold auth/session state and issue raw HTTP requests."""
 
     def __init__(
         self,
@@ -303,6 +307,7 @@ class QuickBaseAPI:
         session: requests.Session | None = None,
         schema_cache: SchemaCache | None = None,
     ):
+        """Create a sync API client with optional request config and schema cache."""
         self.auth = auth
         self.base_url = base_url.rstrip("/")
         self.request_config = request_config or RequestConfig()
@@ -314,10 +319,12 @@ class QuickBaseAPI:
 
     @property
     def schema_cache(self) -> SchemaCache | None:
+        """Return the schema cache attached to this client, if any."""
         return self._schema_cache
 
     @schema_cache.setter
     def schema_cache(self, schema_cache: SchemaCache) -> None:
+        """Attach a schema cache and bind it back to this client."""
         from quickbase_data_client.schema_cache import SchemaCache
 
         if not isinstance(schema_cache, SchemaCache):
@@ -338,6 +345,7 @@ class QuickBaseAPI:
         id: str | None = None,
         name: str | None = None,
     ) -> App:
+        """Create an app wrapper."""
         from quickbase_data_client.app import App
 
         if identifier is not None:
@@ -363,6 +371,7 @@ class QuickBaseAPI:
         name: str | None = None,
         app: App | None = None,
     ) -> Table:
+        """Create a table wrapper."""
         from quickbase_data_client.table import Table
 
         if identifier is not None:
@@ -598,10 +607,7 @@ class QuickBaseAPI:
         endpoint: str,
         payload: Dict[str, Any] | None = None,
     ) -> requests.Response:
-        """
-        Sends a raw HTTP request and returns the requests.Response.
-        Parsing into QuickBaseResponse is done at the Table layer.
-        """
+        """Send a raw HTTP request and return the transport response."""
         url = f"{self.base_url}{endpoint}"
         for attempt in range(1, self.request_config.retry_count + 2):
             self._log_request(

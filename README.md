@@ -70,6 +70,7 @@ print(upsert_response.metadata)
 
 ## Docs
 
+- [Documentation Index](docs/index.md)
 - [Installation](docs/installation.md)
 - [Quickstart](docs/quickstart.md)
 - [ID-Only Usage](docs/id-only-usage.md)
@@ -79,7 +80,11 @@ print(upsert_response.metadata)
 - [Exceptions](docs/exceptions.md)
 - [Retries and Configuration](docs/retries-and-configuration.md)
 - [Async Support](docs/async-support.md)
+- [Examples](docs/examples.md)
+- [Development](docs/development.md)
 - [Migration Notes](docs/migration-notes.md)
+
+See the [changelog](CHANGELOG.md) for notable unreleased and released changes.
 
 ## Notes On Scope
 
@@ -89,6 +94,10 @@ This package is intentionally narrow.
 - IDs are the primary contract.
 - `SchemaCache` is optional and explicit.
 - Async support is intentionally smaller than the sync surface.
+
+For structural administration such as app, table, field, relationship, trustee,
+Solutions/QBL, and schema export workflows, use the companion
+[QuickBase-Structure-Client](https://github.com/Derek-Banker/QuickBase-Structure-Client).
 
 ## Compatibility Notes
 
@@ -111,6 +120,10 @@ Generated schema caches can contain tenant-specific metadata. Treat them as loca
 
 Phase 11 adds an explicit source-distribution guard so local `models/` cache files are not bundled by accident.
 
+## DISCLAIMER
+
+This project was made primarily through the use of LLMs. As a result its code is open and available for all.
+
 ## License
 
-Apache License 2.0. See [LICENSE](LICENSE).
+The Unlicense. See [LICENSE](LICENSE).

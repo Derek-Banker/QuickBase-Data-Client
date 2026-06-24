@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Async request helpers for supported table operations."""
+
+from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, List
 
@@ -27,6 +29,7 @@ class AsyncQuickBaseRequest:
         data: List[Dict[str, Any]],
         fields_to_return: List[int] | None = None,
     ) -> Any:
+        """Upload file attachment payloads asynchronously."""
         endpoint, payload = build_upload_files_request(table_id, data, fields_to_return)
         response = await client.request(method="POST", endpoint=endpoint, payload=payload)
         return response.json()
@@ -38,6 +41,7 @@ class AsyncQuickBaseRequest:
         report_id: str,
         params: RunReportParams = RunReportParams(),
     ) -> Any:
+        """Run a report asynchronously."""
         endpoint, payload = build_run_report_request(table_id, report_id, params)
         response = await client.request(method="POST", endpoint=endpoint, payload=payload)
         return response.json()
@@ -49,6 +53,7 @@ class AsyncQuickBaseRequest:
         data: List[Dict[str, Any]],
         fields_to_return: List[int] | None = None,
     ) -> Any:
+        """Upsert records asynchronously."""
         endpoint, payload = build_upsert_records_request(table_id, data, fields_to_return)
         response = await client.request(method="POST", endpoint=endpoint, payload=payload)
         return response.json()
@@ -63,6 +68,7 @@ class AsyncQuickBaseRequest:
         groupBy: List[GroupByProperty] | None = None,
         options: OptionsProperty | None = None,
     ) -> Any:
+        """Query records asynchronously."""
         endpoint, payload = build_query_records_request(
             table_id,
             where,

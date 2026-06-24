@@ -8,7 +8,7 @@ version = "0.1.1"
 description = "Python client for Quickbase data access with optional schema caching and pandas helpers"
 authors = [{ name = "Derek Banker", email = "dbb2002@gmail.com" }]
 readme = "README.md"
-license = "Apache-2.0"
+license = "Unlicense"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
 keywords = ["quickbase", "api", "data", "pandas", "schema"]
@@ -22,6 +22,11 @@ dependencies = [
     "pandas",
     "requests",
 ]
+
+[project.urls]
+Homepage = "https://github.com/Derek-Banker/QuickBase-Data-Client"
+Repository = "https://github.com/Derek-Banker/QuickBase-Data-Client"
+Issues = "https://github.com/Derek-Banker/QuickBase-Data-Client/issues"
 
 [project.optional-dependencies]
 dev = [
@@ -55,7 +60,7 @@ markers = [
 [tool.ruff]
 target-version = "py310"
 line-length = 100
-src = ["src", "tests"]
+src = ["src", "tests", "examples"]
 extend-exclude = [
     "src/quickbase_data_client/code_generation",
     "src/quickbase_data_client/typed_structs",
@@ -63,11 +68,17 @@ extend-exclude = [
 ]
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = ["D", "E", "F", "I"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
 
 [tool.mypy]
 python_version = "3.10"
-files = ["src", "tests"]
+files = ["src", "tests", "examples"]
 mypy_path = "src"
 namespace_packages = true
 show_error_codes = true

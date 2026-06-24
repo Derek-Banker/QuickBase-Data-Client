@@ -1,3 +1,5 @@
+"""Package exception hierarchy and contextual error formatting."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -17,6 +19,7 @@ def format_error_message(
     object_ref: str | None = None,
     **context: Any,
 ) -> str:
+    """Build a contextual error message from optional operation details."""
     details: list[str] = []
 
     if operation:

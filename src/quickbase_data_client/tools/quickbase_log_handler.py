@@ -1,4 +1,6 @@
-﻿import atexit
+﻿"""Logging handler that batches log records into Quickbase."""
+
+import atexit
 import datetime
 import logging
 import threading
@@ -24,7 +26,8 @@ class QuickBaseHandler(logging.Handler):
         batch_size: int = DEFAULT_BATCH_SIZE,
         level: int = logging.NOTSET,
     ):
-        """
+        """Create a handler that writes buffered log records to Quickbase.
+
         `fids` must include:
           - `date_time`
           - `level`
@@ -86,6 +89,7 @@ class QuickBaseHandler(logging.Handler):
         return payload
 
     def emit(self, record: logging.LogRecord):
+        """Buffer a log record and flush when needed."""
         need_flush = False
         with self._lock:
             self.buffer.append(record)
@@ -96,6 +100,7 @@ class QuickBaseHandler(logging.Handler):
             self.flush()
 
     def flush(self):
+        """Write buffered log records to Quickbase."""
         with self._lock:
             if not self.buffer:
                 return

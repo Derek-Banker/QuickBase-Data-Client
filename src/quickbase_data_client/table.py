@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Table wrapper for sync Quickbase data workflows."""
+
+from __future__ import annotations
 
 import json
 import logging
@@ -175,9 +177,7 @@ def _merge_tabular_responses(raw_responses: List[Dict[str, Any]]) -> Dict[str, A
 
 
 class Table:
-    """
-    Helper for interacting with a specific QuickBase table.
-    """
+    """Helper for interacting with a specific Quickbase table."""
 
     @overload
     def __init__(self, app: App, identifier: Identifier) -> None: ...
@@ -225,6 +225,7 @@ class Table:
         name: str | None = None,
         app: App | None = None,
     ) -> None:
+        """Create a table wrapper from a client or app."""
         from quickbase_data_client.app import App
 
         resolved_app: App | None = None
@@ -267,18 +268,22 @@ class Table:
 
     @property
     def name(self):
+        """Return the table name when available or resolvable."""
         return self._identifier.name
 
     @property
     def id(self):
+        """Return the table id when available or resolvable."""
         return self._identifier.id
 
     @property
     def identifier(self):
+        """Return the underlying table identifier."""
         return self._identifier
 
     @identifier.setter
     def identifier(self, identifier: Identifier):
+        """Replace the underlying table identifier."""
         if not isinstance(identifier, Identifier):
             raise QuickbaseValidationError(
                 format_error_message(
@@ -298,10 +303,12 @@ class Table:
 
     @property
     def api_client(self):
+        """Return the API client used by this table wrapper."""
         return self._api_client
 
     @api_client.setter
     def api_client(self, api_client: QuickBaseAPI):
+        """Replace the API client used by this table wrapper."""
         if not isinstance(api_client, QuickBaseAPI):
             raise QuickbaseValidationError(
                 format_error_message(
@@ -315,6 +322,7 @@ class Table:
 
     @property
     def app(self) -> App | None:
+        """Return the parent app when this table is app-scoped."""
         return self._app
 
     def _coerce_report_identifier(self, report_identifier: Identifier | str | int) -> Identifier:
@@ -569,6 +577,7 @@ class Table:
         max_batch_record_count: int = DEFAULT_UPSERT_BATCH_RECORD_COUNT,
         max_request_size_kb: int | float = DEFAULT_MAX_REQUEST_SIZE,
     ) -> QuickBaseResponse:
+        """Upsert records, splitting oversized requests into batches."""
         table_id = self._require_table_id("Table.upsert_records")
         payload = self._normalize_upsert_data(data)
         raw_responses = [
@@ -600,6 +609,7 @@ class Table:
         groupBy: List[GroupByProperty] | None = None,
         options: OptionsProperty | None = None,
     ) -> QuickBaseResponse:
+        """Query records from this table."""
         table_id = self._require_table_id("Table.query_records")
         raw_response = QuickBaseRequest.query_records(
             self._api_client,
@@ -622,6 +632,7 @@ class Table:
         *,
         page_size: int = DEFAULT_PAGE_SIZE,
     ) -> Iterator[QuickBaseResponse]:
+        """Yield query-records responses page by page."""
         operation = "Table.iter_query_pages"
         page_size = self._validate_positive_int(
             page_size,
@@ -696,6 +707,7 @@ class Table:
         *,
         page_size: int = DEFAULT_PAGE_SIZE,
     ) -> QuickBaseResponse:
+        """Query all matching rows and merge pages into one response."""
         raw_responses = [
             response.raw
             for response in self.iter_query_pages(
@@ -717,6 +729,7 @@ class Table:
         report_identifier: Identifier | str | int,
         params: RunReportParams = RunReportParams(),
     ) -> QuickBaseResponse:
+        """Run a report for this table."""
         report_ref = self._coerce_report_identifier(report_identifier)
         table_id = self._require_table_id("Table.run_report")
         report_id = report_ref.id
@@ -745,6 +758,7 @@ class Table:
         *,
         page_size: int = DEFAULT_PAGE_SIZE,
     ) -> Iterator[QuickBaseResponse]:
+        """Yield report responses page by page."""
         operation = "Table.iter_report_pages"
         page_size = self._validate_positive_int(
             page_size,
@@ -800,6 +814,7 @@ class Table:
                 return
 
     def run_formula(self, formula: str, record_id: int | None = None) -> QuickBaseResponse:
+        """Run a Quickbase formula for this table."""
         table_id = self._require_table_id("Table.run_formula")
         raw_response = QuickBaseRequest.run_formula(
             self._api_client,
@@ -820,6 +835,7 @@ class Table:
         max_file_size_kb: int | float | None = None,
         max_request_size_kb: int | float | None = None,
     ) -> QuickBaseResponse:
+        """Upload one or more file attachments through record upserts."""
         operation = "Table.upload_files"
         table_id = self._require_table_id(operation)
         if file_field_id is None:
@@ -952,6 +968,7 @@ class Table:
         output_file_name: str,
         output_file_path: Path | str,
     ) -> QuickBaseResponse:
+        """Download a file attachment version to disk."""
         table_id = self._require_table_id("Table.download_file")
         raw_response = QuickBaseRequest.download_file(
             self._api_client,
@@ -967,6 +984,7 @@ class Table:
         )
 
     def delete_file(self, field_id: int, record_id: int, version_number: int) -> QuickBaseResponse:
+        """Delete a file attachment version."""
         table_id = self._require_table_id("Table.delete_file")
         raw_response = QuickBaseRequest.delete_file(
             self._api_client,

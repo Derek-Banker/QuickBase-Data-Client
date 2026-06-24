@@ -1,4 +1,6 @@
-﻿import logging
+﻿"""Response wrappers and download normalization helpers."""
+
+import logging
 from abc import ABC
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Mapping, Tuple
@@ -14,9 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def _extract_status(raw: Dict[str, Any]) -> Tuple[int, str]:
-    """
-    Grab status_code and status_text from the raw payload metadata (or top level).
-    """
+    """Grab status code and text from metadata or top-level fields."""
     meta = raw.get("metadata", {})
     status_code = meta.get("statusCode", raw.get("statusCode", -1))
     status_text = meta.get("message", raw.get("statusText", ""))
@@ -119,6 +119,7 @@ def build_download_response(
     output_file_name: str,
     output_path: Path,
 ) -> tuple[Dict[str, Any], Path]:
+    """Normalize a file download response and write file content to disk."""
     if isinstance(raw, dict):
         return _build_download_response_from_payload(
             raw,
@@ -210,6 +211,7 @@ class QuickBaseResponse(ABC):
     """
 
     def __init__(self, raw: Dict[str, Any]) -> None:
+        """Create a response wrapper from a decoded payload."""
         code, text = _extract_status(raw)
         self.status_code = code
         self.status_text = text
@@ -219,24 +221,29 @@ class QuickBaseResponse(ABC):
 
     @property
     def raw(self) -> Dict[str, Any]:
+        """Return the original or aggregate decoded payload."""
         return self._raw
 
     @property
     def parsed(self) -> Any:
+        """Return the canonical parsed view for this response."""
         return self._parsed
 
     @property
     def metadata(self) -> Dict[str, Any]:
+        """Return the response metadata block when present."""
         metadata = self._raw.get("metadata", {})
         return metadata if isinstance(metadata, dict) else {}
 
     @property
     def fields(self) -> List[Dict[str, Any]]:
+        """Return field metadata from tabular responses."""
         fields = self._raw.get("fields", [])
         return fields if isinstance(fields, list) else []
 
     @property
     def data(self) -> List[Dict[str, Any]]:
+        """Return row data from tabular responses."""
         data = self._raw.get("data", [])
         return data if isinstance(data, list) else []
 
@@ -244,6 +251,7 @@ class QuickBaseResponse(ABC):
         self,
         header: Literal["IDENTIFIER", "ID", "NAME"] = "IDENTIFIER",
     ) -> Pandas.DataFrame | None:
+        """Return a DataFrame when a specialized response supports one."""
         logger.warning(
             "%s.dataframe called, but no DataFrame implementation is available.",
             self.__class__.__name__,
@@ -255,6 +263,7 @@ class RunReportResponse(QuickBaseResponse):
     """Handles the query/report tabular response shape."""
 
     def __init__(self, raw: Dict[str, Any], table_identifier: Identifier) -> None:
+        """Create a tabular response for a table identifier."""
         super().__init__(raw)
         self._table_identifier = table_identifier
 
@@ -262,6 +271,7 @@ class RunReportResponse(QuickBaseResponse):
         self,
         header: Literal["IDENTIFIER", "ID", "NAME"] = "IDENTIFIER",
     ) -> Pandas.DataFrame:
+        """Return query or report rows as a DataFrame."""
         if self._dataframe is None:
             self._dataframe = _generate_frame(self._raw, self._table_identifier)
 
@@ -271,14 +281,14 @@ class RunReportResponse(QuickBaseResponse):
 
 
 class UpsertRecordsResponse(QuickBaseResponse):
-    """
-    Response wrapper for `/records` upsert and file-upload operations.
+    """Response wrapper for `/records` upsert and file-upload operations.
 
     Phase 6 may aggregate multiple compatible `/records` responses into a single
     logical wrapper when the Table layer batches large upserts.
     """
 
     def __init__(self, raw: Dict[str, Any], table_identifier: Identifier) -> None:
+        """Create an upsert response for a table identifier."""
         super().__init__(raw)
         self._table_identifier = table_identifier
 
@@ -286,6 +296,7 @@ class UpsertRecordsResponse(QuickBaseResponse):
         self,
         header: Literal["IDENTIFIER", "ID", "NAME"] = "IDENTIFIER",
     ) -> Pandas.DataFrame:
+        """Return upsert response rows as a DataFrame."""
         if self._dataframe is None:
             data = self.data
             if not data:
@@ -307,6 +318,7 @@ class GenericResponse(QuickBaseResponse):
     """Catch-all response wrapper for operations without specialized parsing."""
 
     def __init__(self, raw: Dict[str, Any]) -> None:
+        """Create a generic response wrapper."""
         super().__init__(raw)
 
 
@@ -314,6 +326,7 @@ class DownloadFileResponse(QuickBaseResponse):
     """Response wrapper for file downloads that persist content to disk."""
 
     def __init__(self, raw: Dict[str, Any], saved_to: Path) -> None:
+        """Create a download response for a saved file path."""
         super().__init__(raw)
         self._path = saved_to
         self._parsed = {
@@ -325,18 +338,22 @@ class DownloadFileResponse(QuickBaseResponse):
 
     @property
     def path(self) -> Path:
+        """Return the local path where the file was written."""
         return self._path
 
     @property
     def file_name(self) -> str:
+        """Return the saved file name."""
         return self._path.name
 
     @property
     def bytes_written(self) -> int:
+        """Return the number of bytes written to disk."""
         value = self._raw.get("bytesWritten", 0)
         return value if isinstance(value, int) else 0
 
     @property
     def encoding(self) -> str | None:
+        """Return the download encoding used for the saved file."""
         value = self._raw.get("encoding")
         return value if isinstance(value, str) else None

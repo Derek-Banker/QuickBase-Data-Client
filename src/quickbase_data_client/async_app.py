@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Async app-scoped helpers for creating async table wrappers."""
+
+from __future__ import annotations
 
 import warnings
 from typing import TYPE_CHECKING, Any, cast, overload
@@ -35,6 +37,7 @@ class AsyncApp:
         id: str | None = None,
         name: str | None = None,
     ) -> None:
+        """Create an async app wrapper from an async API client and identifier."""
         from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
 
         if api_client is None or not isinstance(api_client, AsyncQuickBaseAPI):
@@ -57,26 +60,32 @@ class AsyncApp:
 
     @property
     def name(self):
+        """Return the app name when available or resolvable."""
         return self._delegate.name
 
     @property
     def id(self):
+        """Return the app id when available or resolvable."""
         return self._delegate.id
 
     @property
     def identifier(self):
+        """Return the underlying app identifier."""
         return self._delegate.identifier
 
     @identifier.setter
     def identifier(self, identifier: Identifier):
+        """Replace the underlying app identifier."""
         self._delegate.identifier = identifier
 
     @property
     def api_client(self) -> AsyncQuickBaseAPI:
+        """Return the async API client used by this app wrapper."""
         return cast("AsyncQuickBaseAPI", self._delegate.api_client)
 
     @api_client.setter
     def api_client(self, api_client: AsyncQuickBaseAPI):
+        """Replace the async API client used by this app wrapper."""
         self._delegate.api_client = api_client
 
     def table(
@@ -86,6 +95,7 @@ class AsyncApp:
         id: str | None = None,
         name: str | None = None,
     ) -> AsyncTableModel:
+        """Create and remember an async table wrapper scoped to this app."""
         from quickbase_data_client.async_table import AsyncTable as AsyncTableModel
 
         if identifier is not None:
@@ -115,6 +125,7 @@ class AsyncApp:
         id: str | None = None,
         name: str | None = None,
     ) -> AsyncTableModel:
+        """Create an async table wrapper through the deprecated legacy method."""
         warnings.warn(
             "AsyncApp.Table() is deprecated; use app.table(...) instead.",
             DeprecationWarning,
@@ -123,6 +134,7 @@ class AsyncApp:
         return self.table(identifier=identifier, id=id, name=name)
 
     def get_loaded_tables(self) -> list[AsyncTableModel]:
+        """Return async table wrappers created through this app."""
         return self._loaded_tables
 
 

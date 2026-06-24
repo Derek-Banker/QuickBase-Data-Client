@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""App-scoped helpers for creating table wrappers."""
+
+from __future__ import annotations
 
 import warnings
 from typing import overload
@@ -10,9 +12,7 @@ from quickbase_data_client.table import Table as TableModel
 
 
 class App:
-    """
-    Helper for interacting with a specific QuickBase App.
-    """
+    """Helper for interacting with a specific QuickBase app."""
 
     @overload
     def __init__(self, api_client: QuickBaseAPI, identifier: Identifier) -> None: ...
@@ -34,6 +34,7 @@ class App:
         id: str | None = None,
         name: str | None = None,
     ) -> None:
+        """Create an app wrapper from an API client and app identifier."""
         if api_client is None or not isinstance(api_client, QuickBaseAPI):
             raise QuickbaseValidationError(
                 format_error_message(
@@ -56,18 +57,22 @@ class App:
 
     @property
     def name(self):
+        """Return the app name when available or resolvable."""
         return self._identifier.name
 
     @property
     def id(self):
+        """Return the app id when available or resolvable."""
         return self._identifier.id
 
     @property
     def identifier(self):
+        """Return the underlying app identifier."""
         return self._identifier
 
     @identifier.setter
     def identifier(self, identifier: Identifier):
+        """Replace the underlying app identifier."""
         if not isinstance(identifier, Identifier):
             raise QuickbaseValidationError(
                 format_error_message(
@@ -85,10 +90,12 @@ class App:
 
     @property
     def api_client(self):
+        """Return the API client used by this app wrapper."""
         return self._api_client
 
     @api_client.setter
     def api_client(self, api_client: QuickBaseAPI):
+        """Replace the API client used by this app wrapper."""
         if not isinstance(api_client, QuickBaseAPI):
             raise QuickbaseValidationError(
                 format_error_message(
@@ -106,6 +113,7 @@ class App:
         id: str | None = None,
         name: str | None = None,
     ) -> TableModel:
+        """Create and remember a table wrapper scoped to this app."""
         if identifier is not None:
             table = TableModel(self, identifier=identifier)
         elif id is not None and name is not None:
@@ -133,6 +141,7 @@ class App:
         id: str | None = None,
         name: str | None = None,
     ) -> TableModel:
+        """Create a table wrapper through the deprecated legacy method."""
         warnings.warn(
             "App.Table() is deprecated; use app.table(...) instead.",
             DeprecationWarning,
@@ -141,6 +150,7 @@ class App:
         return self.table(identifier=identifier, id=id, name=name)
 
     def get_loaded_tables(self) -> list[TableModel]:
+        """Return table wrappers created through this app."""
         return self.loaded_tables
 
 

@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Lazy Quickbase object identifiers with optional schema-backed lookup."""
+
+from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING, Any, Dict, List, cast
@@ -17,9 +19,7 @@ if TYPE_CHECKING:
 
 
 class Identifier:
-    """
-    A lazy identifier for APP, TABLE, FIELD, or REPORT.
-    """
+    """Represent a lazy app, table, field, or report identifier."""
 
     def __init__(
         self,
@@ -31,6 +31,7 @@ class Identifier:
         schema_cache: SchemaCache | None = None,
         decorative: bool = False,
     ) -> None:
+        """Create an identifier from an id or name."""
         normalized_level = level.upper()
         if normalized_level not in LEVELS_LIST:
             raise QuickbaseValidationError(
@@ -71,6 +72,7 @@ class Identifier:
             self.schema_cache = schema_cache
 
     def __repr__(self) -> str:
+        """Return a compact representation for diagnostics."""
         parent_id = self._parent._id if self._parent is not None else None
         return (
             "{"
@@ -83,6 +85,7 @@ class Identifier:
 
     @property
     def level(self) -> LEVELS_LITERAL:
+        """Return the Quickbase object level."""
         return self._level
 
     def _get_schema_cache(self, operation: str) -> SchemaCache:
@@ -137,6 +140,7 @@ class Identifier:
 
     @property
     def name(self) -> str | None:
+        """Return or resolve the object name."""
         if self._name is None:
             if self._decorative:
                 logger.warning(
@@ -183,6 +187,7 @@ class Identifier:
 
     @property
     def id(self) -> str | None:
+        """Return or resolve the object id."""
         if self._id is None:
             if self._decorative:
                 logger.warning(
@@ -226,6 +231,7 @@ class Identifier:
 
     @property
     def type(self) -> str | None:
+        """Return or resolve the field or report type."""
         if self._level in {"APP", "TABLE"}:
             return None
 
@@ -275,6 +281,7 @@ class Identifier:
 
     @property
     def parent(self) -> Identifier | None:
+        """Return or resolve the parent identifier."""
         if self._level == "APP":
             return None
         if self._parent is not None:
@@ -285,10 +292,12 @@ class Identifier:
 
     @property
     def decorative(self) -> bool:
+        """Return whether this identifier should skip schema auto-resolution."""
         return self._decorative
 
     @property
     def schema_cache(self) -> SchemaCache | None:
+        """Return the attached schema cache, including inherited parent cache."""
         if self._schema_cache is not None:
             return self._schema_cache
         if self._parent is not None:
@@ -296,6 +305,7 @@ class Identifier:
         return None
 
     def get_properties(self, filters: List[str] | None = None) -> Dict[str, Any]:
+        """Return cached schema properties, optionally filtered by key."""
         if not self.properties:
             get_properties = self._get_schema_callable(
                 "Identifier.get_properties",
@@ -383,6 +393,7 @@ class Identifier:
         type: str | None = None,
         decorative: bool = False,
     ) -> Identifier:
+        """Create a child identifier that inherits this identifier as parent."""
         return Identifier(
             level=level,
             id=id,
@@ -394,6 +405,7 @@ class Identifier:
         )
 
     def field_identities(self) -> List[Identifier] | None:
+        """Return field identifiers for a table identifier when available."""
         if self.level != "TABLE":
             return None
 
@@ -418,6 +430,7 @@ class Identifier:
         parent: Identifier | None = None,
         schema_cache: SchemaCache | None = None,
     ) -> Identifier:
+        """Return an existing identifier or build one from supplied values."""
         if isinstance(valid_levels, list):
             valid_lvls = valid_levels
         elif valid_levels:
