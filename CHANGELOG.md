@@ -7,6 +7,12 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-06-24
+
+### Changed
+
+- Modified PYPI upload scrip to fix issue.
+
 ## [0.1.2] - 2026-06-24
 
 ### Added
