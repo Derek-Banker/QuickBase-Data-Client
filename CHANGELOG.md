@@ -19,3 +19,5 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Expanded quality checks to include examples and Google-style docstring linting.
 - Included documentation and examples in source distributions while preserving schema cache
   exclusions.
+- Required a mypy version that can parse current NumPy stubs in Python 3.13 CI while
+  preserving the package's Python 3.10 type-check target.

@@ -30,7 +30,7 @@ Issues = "https://github.com/Derek-Banker/QuickBase-Data-Client/issues"
 
 [project.optional-dependencies]
 dev = [
-    "mypy",
+    "mypy>=1.20",
     "pytest",
     "pytest-cov",
     "python-dotenv",
