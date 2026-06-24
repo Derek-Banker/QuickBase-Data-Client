@@ -1,4 +1,6 @@
-﻿from dataclasses import dataclass
+﻿"""Conversion helpers between Quickbase rows and pandas DataFrames."""
+
+from dataclasses import dataclass
 from numbers import Integral
 from typing import Any, Dict, List, Literal
 
@@ -24,11 +26,14 @@ class _ResolvedColumn:
 
 
 class DataFrameEncoder:
+    """Encode and decode Quickbase row payloads as pandas DataFrames."""
+
     @staticmethod
     def to_dataframe(
         data: List[Dict[str, Dict[str, Any]]],
         field_identities: List[Identifier],
     ) -> Pandas.DataFrame:
+        """Convert Quickbase row data into a DataFrame with identifier columns."""
         raw_rows = []
         for record in data:
             row: Dict[Identifier, Any] = {}
@@ -63,6 +68,7 @@ class DataFrameEncoder:
         dataframe: Pandas.DataFrame,
         header_type: Literal["NAME", "ID"],
     ) -> Pandas.DataFrame:
+        """Rename identifier columns to field names or field ids."""
         if header_type not in ("NAME", "ID"):
             raise QuickbaseValidationError(
                 format_error_message(
@@ -94,6 +100,7 @@ class DataFrameEncoder:
         dataframe: Pandas.DataFrame,
         table_identifier: Identifier | None = None,
     ) -> List[Dict[str, Dict[str, Any]]]:
+        """Convert a DataFrame into Quickbase record payload rows."""
         resolved_columns = DataFrameEncoder._resolve_columns(
             dataframe.columns,
             table_identifier=table_identifier,

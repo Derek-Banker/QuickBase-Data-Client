@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Async Quickbase client built on the sync request primitives."""
+
+from __future__ import annotations
 
 import asyncio
 import logging
@@ -36,6 +38,7 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         session: requests.Session | None = None,
         schema_cache: SchemaCache | None = None,
     ) -> None:
+        """Create an async client with a locked requests session."""
         super().__init__(
             auth,
             base_url=base_url,
@@ -52,6 +55,7 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         id: str | None = None,
         name: str | None = None,
     ) -> AsyncApp:
+        """Create an async app wrapper."""
         from quickbase_data_client.async_app import AsyncApp
 
         if identifier is not None:
@@ -77,6 +81,7 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         name: str | None = None,
         app: AsyncApp | None = None,
     ) -> AsyncTable:
+        """Create an async table wrapper."""
         from quickbase_data_client.async_table import AsyncTable
 
         if identifier is not None:
@@ -115,6 +120,7 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         endpoint: str,
         payload: Dict[str, Any] | None = None,
     ) -> requests.Response:
+        """Send a request in a worker thread and apply async retry delays."""
         url = f"{self.base_url}{endpoint}"
         for attempt in range(1, self.request_config.retry_count + 2):
             self._log_request(
@@ -239,16 +245,20 @@ class AsyncQuickBaseAPI(QuickBaseAPI):
         )
 
     def close(self) -> None:
+        """Close the underlying requests session."""
         with self._session_lock:
             self.session.close()
 
     async def aclose(self) -> None:
+        """Close the underlying requests session from async code."""
         await asyncio.to_thread(self.close)
 
     async def __aenter__(self) -> AsyncQuickBaseAPI:
+        """Return the client for async context-manager use."""
         return self
 
     async def __aexit__(self, exc_type, exc, tb) -> None:
+        """Close the client when leaving an async context manager."""
         await self.aclose()
 
 

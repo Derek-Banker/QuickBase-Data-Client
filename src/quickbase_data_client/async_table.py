@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Async table wrapper for supported data workflows."""
+
+from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Iterator, List, TypeAlias, cast, overload
 
@@ -96,6 +98,7 @@ class AsyncTable:
         name: str | None = None,
         app: AsyncApp | None = None,
     ) -> None:
+        """Create an async table wrapper from a client or async app."""
         from quickbase_data_client.async_app import AsyncApp
         from quickbase_data_client.async_quickbase_api import AsyncQuickBaseAPI
 
@@ -137,30 +140,37 @@ class AsyncTable:
 
     @property
     def name(self):
+        """Return the table name when available or resolvable."""
         return self._delegate.name
 
     @property
     def id(self):
+        """Return the table id when available or resolvable."""
         return self._delegate.id
 
     @property
     def identifier(self):
+        """Return the underlying table identifier."""
         return self._delegate.identifier
 
     @identifier.setter
     def identifier(self, identifier: Identifier):
+        """Replace the underlying table identifier."""
         self._delegate.identifier = identifier
 
     @property
     def api_client(self) -> AsyncQuickBaseAPI:
+        """Return the async API client used by this table wrapper."""
         return cast("AsyncQuickBaseAPI", self._delegate.api_client)
 
     @api_client.setter
     def api_client(self, api_client: AsyncQuickBaseAPI):
+        """Replace the async API client used by this table wrapper."""
         self._delegate.api_client = api_client
 
     @property
     def app(self) -> AsyncApp | None:
+        """Return the parent async app when this table is app-scoped."""
         return self._app
 
     def _normalize_upsert_data(
@@ -213,6 +223,7 @@ class AsyncTable:
         max_batch_record_count: int = DEFAULT_UPSERT_BATCH_RECORD_COUNT,
         max_request_size_kb: int | float | None = None,
     ) -> QuickBaseResponse:
+        """Upsert records asynchronously, splitting oversized batches."""
         payload = self._normalize_upsert_data(data)
         request_size_limit_kb = self._resolve_request_size_limit_kb(
             max_request_size_kb,
@@ -249,6 +260,7 @@ class AsyncTable:
         groupBy: List[GroupByProperty] | None = None,
         options: OptionsProperty | None = None,
     ) -> QuickBaseResponse:
+        """Run an asynchronous query-records request."""
         raw_response = await AsyncQuickBaseRequest.query_records(
             self.api_client,
             self.id,
@@ -265,6 +277,7 @@ class AsyncTable:
         report_identifier: Identifier | str | int,
         params: RunReportParams = RunReportParams(),
     ) -> QuickBaseResponse:
+        """Run a Quickbase report asynchronously."""
         report_ref = self._coerce_report_identifier(report_identifier)
         table_id = self.id
         if table_id is None:
@@ -305,6 +318,7 @@ class AsyncTable:
         max_file_size_kb: int | float | None = None,
         max_request_size_kb: int | float | None = None,
     ) -> QuickBaseResponse:
+        """Upload one or more file attachments asynchronously."""
         operation = "AsyncTable.upload_files"
         table_id = self.id
         if table_id is None:

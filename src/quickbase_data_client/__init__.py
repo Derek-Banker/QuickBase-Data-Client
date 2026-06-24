@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""Public exports for quickbase-data-client."""
+
+from __future__ import annotations
 
 import warnings
 
@@ -87,6 +89,7 @@ _COMPAT_EXPORTS = {
 
 
 def __getattr__(name: str):
+    """Load deprecated compatibility exports lazily."""
     if name in _COMPAT_EXPORTS:
         module_name, attribute_name, message = _COMPAT_EXPORTS[name]
         warnings.warn(message, DeprecationWarning, stacklevel=2)

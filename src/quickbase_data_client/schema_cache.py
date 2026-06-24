@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+﻿"""SQLite-backed Quickbase schema cache."""
+
+from __future__ import annotations
 
 import asyncio
 import inspect
@@ -59,8 +61,7 @@ def _resolve_maybe_awaitable(value: Any) -> Any:
 
 
 class SchemaCache:
-    """
-    Explicit SQLite-backed schema cache.
+    """Explicit SQLite-backed schema cache.
 
     Cache granularity is intentionally segmented:
     - APP metadata by app id
@@ -77,6 +78,7 @@ class SchemaCache:
         default_refresh_policy: RefreshPolicy = "missing",
         stale_after_seconds: float = 3600.0,
     ) -> None:
+        """Create a schema cache and initialize its SQLite database."""
         self._path = self._normalize_path(path)
         self._default_refresh_policy = self._normalize_refresh_policy(
             default_refresh_policy,
@@ -92,10 +94,12 @@ class SchemaCache:
 
     @property
     def api_client(self) -> QuickBaseAPI | None:
+        """Return the API client used for refresh operations."""
         return self._api_client
 
     @api_client.setter
     def api_client(self, api_client: QuickBaseAPI) -> None:
+        """Attach the API client used for refresh operations."""
         from quickbase_data_client.quickbase_api import QuickBaseAPI
 
         if not isinstance(api_client, QuickBaseAPI):
@@ -110,22 +114,27 @@ class SchemaCache:
 
     @property
     def path(self) -> str:
+        """Return the SQLite database path."""
         if isinstance(self._path, Path):
             return str(self._path)
         return self._path
 
     @property
     def default_refresh_policy(self) -> RefreshPolicy:
+        """Return the default refresh policy."""
         return self._default_refresh_policy
 
     @property
     def stale_after_seconds(self) -> float:
+        """Return the stale refresh threshold in seconds."""
         return self._stale_after_seconds
 
     def close(self) -> None:
+        """Close the SQLite connection."""
         self._connection.close()
 
     def refresh_app(self, app_id: str) -> None:
+        """Refresh cached metadata for one app."""
         payload = self._request_json(
             method="GET",
             endpoint=f"/apps/{app_id}",
@@ -170,6 +179,7 @@ class SchemaCache:
         self._connection.commit()
 
     def refresh_tables(self, app_id: str) -> None:
+        """Refresh cached table metadata for an app."""
         payload = self._request_json(
             method="GET",
             endpoint=f"/tables?appId={app_id}",
@@ -231,6 +241,7 @@ class SchemaCache:
         self._connection.commit()
 
     def refresh_fields(self, table_id: str) -> None:
+        """Refresh cached field metadata for a table."""
         payload = self._request_json(
             method="GET",
             endpoint=f"/fields?tableId={table_id}",
@@ -289,6 +300,7 @@ class SchemaCache:
         self._connection.commit()
 
     def refresh_reports(self, table_id: str) -> None:
+        """Refresh cached report metadata for a table."""
         payload = self._request_json(
             method="GET",
             endpoint=f"/reports?tableId={table_id}",
@@ -346,6 +358,7 @@ class SchemaCache:
         self._connection.commit()
 
     def invalidate_app(self, app_id: str) -> None:
+        """Remove cached app metadata for one app."""
         normalized_app_id = str(app_id)
         cursor = self._connection.cursor()
         cursor.execute("DELETE FROM apps WHERE id = ?;", (normalized_app_id,))
@@ -356,6 +369,7 @@ class SchemaCache:
         self._connection.commit()
 
     def invalidate_tables(self, app_id: str) -> None:
+        """Remove cached tables and child metadata for one app."""
         normalized_app_id = str(app_id)
         cursor = self._connection.cursor()
         cursor.execute("SELECT id FROM tables WHERE app_id = ?;", (normalized_app_id,))
@@ -368,6 +382,7 @@ class SchemaCache:
         self._connection.commit()
 
     def invalidate_fields(self, table_id: str) -> None:
+        """Remove cached field metadata for one table."""
         normalized_table_id = str(table_id)
         cursor = self._connection.cursor()
         cursor.execute("DELETE FROM fields WHERE table_id = ?;", (normalized_table_id,))
@@ -378,6 +393,7 @@ class SchemaCache:
         self._connection.commit()
 
     def invalidate_reports(self, table_id: str) -> None:
+        """Remove cached report metadata for one table."""
         normalized_table_id = str(table_id)
         cursor = self._connection.cursor()
         cursor.execute("DELETE FROM reports WHERE table_id = ?;", (normalized_table_id,))
@@ -394,6 +410,7 @@ class SchemaCache:
         parent_id: str | None = None,
         refresh_policy: RefreshPolicy | None = None,
     ) -> str:
+        """Resolve an object id from a cached name."""
         normalized_level = self._normalize_level(level, operation="SchemaCache.get_id")
 
         if normalized_level == "APP":
@@ -475,6 +492,7 @@ class SchemaCache:
         parent_id: str | None = None,
         refresh_policy: RefreshPolicy | None = None,
     ) -> str:
+        """Resolve an object name from a cached id."""
         normalized_level = self._normalize_level(level, operation="SchemaCache.get_name")
         normalized_id = str(id)
 
@@ -560,6 +578,7 @@ class SchemaCache:
         id: str,
         refresh_policy: RefreshPolicy | None = None,
     ) -> str | None:
+        """Return a cached parent id when it can be determined uniquely."""
         normalized_level = self._normalize_level(level, operation="SchemaCache.get_parent")
         normalized_id = str(id)
 
@@ -591,6 +610,7 @@ class SchemaCache:
         parent_id: str | None = None,
         refresh_policy: RefreshPolicy | None = None,
     ) -> Dict[str, Any]:
+        """Return cached metadata payload properties for an object."""
         normalized_level = self._normalize_level(level, operation="SchemaCache.get_properties")
         identifier = str(id_or_name)
 
@@ -686,6 +706,7 @@ class SchemaCache:
         parent_id: str | None,
         refresh_policy: RefreshPolicy | None = None,
     ) -> str:
+        """Return cached field or report type information."""
         normalized_level = self._normalize_level(level, operation="SchemaCache.get_type")
         if normalized_level not in {"FIELD", "REPORT"}:
             raise QuickbaseValidationError(
@@ -743,6 +764,7 @@ class SchemaCache:
         table_identifier: Identifier,
         refresh_policy: RefreshPolicy | None = None,
     ) -> list[Identifier]:
+        """Build field identifiers for a cached table identifier."""
         if table_identifier.level != "TABLE":
             raise QuickbaseValidationError(
                 format_error_message(

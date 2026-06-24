@@ -1,4 +1,6 @@
-﻿from datetime import date, datetime, time
+﻿"""Value sanitization helpers for Quickbase record payloads."""
+
+from datetime import date, datetime, time
 from typing import Any, Callable, Dict, Optional, Union
 
 import pandas as pd
@@ -39,11 +41,14 @@ TYPE_FORMATTERS: Dict[str, Callable[[Any], Any]] = {
 
 
 class Sanitizer:
+    """Convert Python and pandas values into Quickbase-friendly scalar values."""
+
     @staticmethod
     def sanitize(
         value: Any,
         type_name: str | None,
     ) -> Optional[Union[str, float, int]]:
+        """Sanitize one value according to a Quickbase field type."""
         if Sanitizer._is_missing_scalar(value):
             return None
 

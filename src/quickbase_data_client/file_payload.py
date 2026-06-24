@@ -1,4 +1,6 @@
-﻿import base64
+﻿"""File attachment payload helpers."""
+
+import base64
 import logging
 from pathlib import Path
 from typing import Dict
@@ -10,9 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class FilePayload:
-    """
-    Encapsulates a file for QuickBase upload/download.
-    """
+    """Encapsulate a file for Quickbase upload and download workflows."""
 
     __slots__ = ("_file_name", "_file_path", "_file_data")
 
@@ -23,6 +23,7 @@ class FilePayload:
         drive_path: Path | str | None = None,
         data: str | None = None,
     ) -> None:
+        """Create a payload from a local file path or encoded data."""
         if drive_path is None and data is None:
             raise QuickbasePayloadError(
                 format_error_message(
@@ -77,30 +78,37 @@ class FilePayload:
 
     @property
     def name(self) -> str | None:
+        """Return the file name used in Quickbase payloads."""
         return self._file_name
 
     @name.setter
     def name(self, new_name: str | None) -> None:
+        """Set the file name used in Quickbase payloads."""
         self._file_name = new_name
 
     @property
     def path(self) -> Path | None:
+        """Return the local file path when this payload uses one."""
         return self._file_path
 
     @path.setter
     def path(self, new_path: str | Path | None) -> None:
+        """Set the local file path and clear cached encoded data."""
         self._file_path = self._validate_path(new_path)
         self._file_data = None
 
     @property
     def encoded(self) -> str:
+        """Return base64-encoded file data."""
         return self.get_encoded()
 
     @encoded.setter
     def encoded(self, data: str) -> None:
+        """Set pre-encoded file data."""
         self._file_data = data
 
     def get_encoded(self, *, size_limit_kb: int | float = DEFAULT_MAX_FILE_SIZE) -> str:
+        """Return encoded file data, reading the local file if needed."""
         if self._file_data is not None and self._file_path is None:
             return self._file_data
 
@@ -120,6 +128,7 @@ class FilePayload:
         return encoded
 
     def as_dict(self, *, size_limit_kb: int | float = DEFAULT_MAX_FILE_SIZE) -> Dict[str, str]:
+        """Return the Quickbase file attachment value shape."""
         if not self._file_name:
             raise QuickbasePayloadError(
                 format_error_message(

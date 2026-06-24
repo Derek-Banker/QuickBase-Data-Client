@@ -1,3 +1,5 @@
+"""Configuration constants for Quickbase data workflows."""
+
 from typing import Final, Literal
 
 DEFAULT_SCHEMA_NAME_JSON: Final[str] = "QuickBase_Schema"
