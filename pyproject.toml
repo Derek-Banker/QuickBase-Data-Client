@@ -84,6 +84,7 @@ namespace_packages = true
 show_error_codes = true
 warn_unused_ignores = true
 ignore_missing_imports = true
+follow_imports_for_stubs = true
 
 # NumPy stubs can use syntax newer than this package's Python 3.10 mypy target.
 [[tool.mypy.overrides]]
