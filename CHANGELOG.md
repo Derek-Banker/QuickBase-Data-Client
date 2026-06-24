@@ -7,6 +7,8 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-06-24
+
 ### Added
 
 - Added repository scaffolding for release notes, documentation indexing, example scripts,
