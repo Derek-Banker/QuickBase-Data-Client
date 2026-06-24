@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quickbase-data-client"
-version = "0.1.1"
+version = "0.1.2"
 description = "Python client for Quickbase data access with optional schema caching and pandas helpers"
 authors = [{ name = "Derek Banker", email = "dbb2002@gmail.com" }]
 readme = "README.md"
