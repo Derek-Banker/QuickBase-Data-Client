@@ -24,3 +24,5 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 - Kept mypy focused on project code by skipping NumPy stub traversal, including stub-file
   imports, to avoid conflicts between current NumPy stubs and the package's Python 3.10
   type-check target.
+- Switched the PyPI release workflow to Trusted Publishing and made GitHub release asset
+  uploads rerun-safe.

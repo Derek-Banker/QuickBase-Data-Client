@@ -66,3 +66,16 @@ python -m build --sdist --wheel
 
 Before publishing, inspect the source distribution and confirm it includes docs and
 examples while excluding local `models/` schema cache artifacts.
+
+The GitHub release workflow publishes to PyPI through PyPI Trusted Publishing rather
+than a long-lived API token. Configure the PyPI trusted publisher for:
+
+- Owner: `Derek-Banker`
+- Repository: `QuickBase-Data-Client`
+- Workflow: `build_and_publish.yml`
+- Environment: `pypi`
+
+The workflow also uploads built distributions to the GitHub release with `--clobber` so
+a failed publish can be rerun without manually deleting already-attached release assets.
+If the original `release: published` run used an old workflow, run the workflow manually
+with the existing release tag after this workflow change is merged.
